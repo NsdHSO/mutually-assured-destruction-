@@ -1,0 +1,12 @@
+[build]
+target = "thumbv6m-none-eabi"
+
+[target.'cfg(all(target_arch = "arm", target_os = "none"))']
+linker = "flip-link"
+rustflags = [
+  "-C", "link-arg=--nmagic",
+  "-C", "link-arg=-Tlink.x",
+]
+runner = "probe-rs run --chip RP2040"
+# Fallback without probe:
+# runner = "./flash.sh"

@@ -1,0 +1,15 @@
+[package]
+name = "pico-app"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "pico-blink"
+path = "src/main.rs"
+
+[dependencies]
+pico-setup = { path = "../setup" }
+cortex-m-rt = "0.7"
+panic-halt = "0.2"
+heapless = "0.8"
+embedded-hal = { workspace = true }

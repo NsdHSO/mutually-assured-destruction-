@@ -3,7 +3,7 @@ resolver = "2"
 members = [
     "crates/core",
     "crates/setup",
-    "crates/pico-app", "mad",
+    "crates/pico-app",
 ]
 
 [workspace.dependencies]

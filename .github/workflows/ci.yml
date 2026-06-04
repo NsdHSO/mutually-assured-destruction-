@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: thumbv6m-none-eabi
+          components: rust-src
+      - run: cargo check --target thumbv6m-none-eabi -p pico-app
+      - run: cargo clippy --target thumbv6m-none-eabi -p pico-app -- -D warnings
