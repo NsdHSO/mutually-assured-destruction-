@@ -1,4 +1,3 @@
 /target/
 *.uf2
 .zed/
-Cargo.lock

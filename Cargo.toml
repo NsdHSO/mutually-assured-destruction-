@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/core",
+    "crates/setup",
+    "crates/pico-app", "mad",
+]
+
+[workspace.dependencies]
+embedded-hal = "0.2.7"
+fugit = "0.3.7"
