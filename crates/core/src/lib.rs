@@ -3,7 +3,6 @@
 /// Pure LED blink state machine.
 /// Tracks on/off state and total toggle count.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[cfg_attr(not(test), derive(defmt::Format))]
 pub struct LedState {
     pub is_on: bool,
     pub toggle_count: u32,
@@ -35,7 +34,6 @@ impl Default for LedState {
 /// Boot sequence state machine.
 /// Each state represents a boot stage with visual feedback.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[cfg_attr(not(test), derive(defmt::Format))]
 pub enum BootState {
     PowerOn,
     ClockInit,
@@ -45,7 +43,6 @@ pub enum BootState {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[cfg_attr(not(test), derive(defmt::Format))]
 pub enum BootError {
     ClockFailure,
     PeripheralFailure,
@@ -80,7 +77,6 @@ impl BootState {
 
 /// Command protocol state machine for UART/USB CDC.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[cfg_attr(not(test), derive(defmt::Format))]
 pub enum ProtocolState {
     Idle,
     ReadingHeader { bytes_received: u8 },
@@ -177,7 +173,6 @@ impl<const N: usize> RingBuffer<N> {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[cfg_attr(not(test), derive(defmt::Format))]
 pub enum BufferError {
     Full,
 }
