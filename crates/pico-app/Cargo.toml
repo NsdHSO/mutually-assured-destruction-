@@ -8,8 +8,12 @@ name = "pico-blink"
 path = "src/main.rs"
 
 [dependencies]
-pico-setup = { path = "../setup" }
-cortex-m-rt = "0.7"
-panic-halt = "0.2"
-heapless = "0.8"
+pico-hal-adapter = { path = "../hal-adapter" }
+pico-core = { path = "../core" }
+cortex-m-rt = { workspace = true }
+cortex-m = { workspace = true }
+defmt = { workspace = true }
+defmt-rtt = { workspace = true }
+panic-probe = { workspace = true }
+heapless = { workspace = true }
 embedded-hal = { workspace = true }

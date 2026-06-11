@@ -1,0 +1,21 @@
+[package]
+name = "pico-embassy"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "embassy-blink"
+path = "src/main.rs"
+
+[dependencies]
+pico-core = { path = "../core" }
+embassy-rp = { workspace = true }
+embassy-time = { workspace = true }
+embassy-executor = { workspace = true }
+embassy-sync = { workspace = true }
+embassy-futures = { workspace = true }
+cortex-m = { workspace = true }
+cortex-m-rt = { workspace = true }
+panic-halt = "0.2"
+static_cell = { workspace = true }
+portable-atomic = { workspace = true }

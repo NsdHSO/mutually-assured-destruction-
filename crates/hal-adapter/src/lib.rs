@@ -16,20 +16,15 @@ use usb_device::class_prelude::*;
 use usb_device::device::{StringDescriptors, UsbDevice, UsbDeviceBuilder, UsbVidPid};
 use usbd_serial::SerialPort;
 
-pub use pico_core::LedState;
+pub use pico_core::{BootError, BootState, LedState, ProtocolState, RingBuffer};
 
 /// Board initialization failure.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum InitError {
-    /// Peripherals already taken.
     PeripheralsTaken,
-    /// Core peripherals already taken.
     CorePeripheralsTaken,
-    /// Clock/PLL initialization failed.
     ClockInitFailed,
-    /// USB bus allocator singleton already initialized.
     UsbSingletonFailed,
-    /// USB device string descriptors failed.
     UsbStringsFailed,
 }
 
@@ -97,13 +92,11 @@ pub fn init() -> Result<Board, InitError> {
 
     let led_pin = pins.led.into_push_pull_output();
 
-    // Move USB fields out of pac before singleton! closure to avoid partial-move
     let mut resets = pac.RESETS;
     let usbctrl_regs = pac.USBCTRL_REGS;
     let usbctrl_dpram = pac.USBCTRL_DPRAM;
     let usb_clock = clocks.usb_clock;
 
-    // USB setup — singleton! provides 'static lifetime for allocator
     let usb_bus: &mut UsbBusAllocator<UsbBus> = singleton!(
         : UsbBusAllocator<UsbBus> =
             UsbBusAllocator::new(UsbBus::new(

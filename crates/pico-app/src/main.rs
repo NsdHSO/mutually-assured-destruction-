@@ -1,11 +1,16 @@
 #![no_std]
 #![no_main]
 
-use core::fmt::Write;
 use cortex_m_rt::entry;
+use defmt::info;
 use embedded_hal::digital::v2::OutputPin;
-use panic_halt as _;
-use pico_setup::{enter_bootloader, init, Board, LedState};
+use pico_hal_adapter::{enter_bootloader, init, Board, LedState};
+use {defmt_rtt as _, panic_probe as _};
+
+defmt::timestamp!("{=u64:us}", {
+    // TODO: replace with actual hardware timer
+    0u64
+});
 
 #[entry]
 fn main() -> ! {
@@ -20,6 +25,8 @@ fn main() -> ! {
     let mut serial_buf = [0u8; 64];
     let mut last_blink_ms: u32 = 0;
     let mut elapsed_ms: u32 = 0;
+
+    info!("Pico blinky starting");
 
     loop {
         if usb_dev.poll(&mut [&mut serial]) {
@@ -59,13 +66,20 @@ fn main() -> ! {
             }
 
             let mut msg = heapless::String::<64>::new();
-            let _ = write!(
+            let _ = core::fmt::Write::write_fmt(
                 &mut msg,
-                "LED: {} | Toggles: {}\r\n",
-                if led_state.is_on { "ON " } else { "OFF" },
-                led_state.toggle_count
+                core::format_args!(
+                    "LED: {} | Toggles: {}\r\n",
+                    if led_state.is_on { "ON " } else { "OFF" },
+                    led_state.toggle_count
+                ),
             );
             let _ = serial.write(msg.as_bytes());
+
+            info!(
+                "LED state: on={}, toggles={}",
+                led_state.is_on, led_state.toggle_count
+            );
         }
 
         delay.delay_ms(1);

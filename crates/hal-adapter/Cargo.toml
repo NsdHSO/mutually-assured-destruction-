@@ -1,13 +1,17 @@
 [package]
-name = "pico-setup"
+name = "pico-hal-adapter"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 pico-core = { path = "../core" }
 rp-pico = "0.9"
-cortex-m = "0.7"
+cortex-m = { workspace = true }
 usb-device = "0.3"
 usbd-serial = "0.2"
 embedded-hal = { workspace = true }
 fugit = { workspace = true }
+defmt = { workspace = true }
+
+[features]
+default = []
